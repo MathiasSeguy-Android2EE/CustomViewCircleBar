@@ -28,6 +28,7 @@
 package circlebar.customview.ui.training.com.android2ee.customviewcirclebar;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -51,6 +52,25 @@ import android.view.View;
  */
 public class CircleBar extends View {
 
+	/***********************************************************
+	 * Default values
+	 **********************************************************/
+
+	public static final String TARGET_LABEL = "target";
+	public static final String MAX_LABEL = "max";
+	public static final String TITLE = "title";
+	public static final String SUBTITLE = "subtitle";
+	public static final int MAX_DEFAULT = 145;
+	public static final int TARGET_DEFAULT = 65;
+	public static final int MIN_COLOR_DEFAULT = 0XFF00AA00;
+	public static final int WARNING_COLOR_DEFAULT = 0Xffffd700;
+	public static final int ERROR_COLOR_DEFAULT = 0XFFFF0000;
+	public static final int VALUE_DEFAULT = 55;
+
+	/***********************************************************
+	*  Constructors
+	**********************************************************/
+
 	/**
 	 * @param context
 	 * @param attrs
@@ -58,6 +78,7 @@ public class CircleBar extends View {
 	 */
 	public CircleBar(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
+		anaylseAttributeSet(context,attrs);
 		finishInitialization();
 	}
 
@@ -67,6 +88,7 @@ public class CircleBar extends View {
 	 */
 	public CircleBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		anaylseAttributeSet(context,attrs);
 		finishInitialization();
 	}
 
@@ -76,6 +98,43 @@ public class CircleBar extends View {
 	public CircleBar(Context context) {
 		super(context);
 		finishInitialization();
+	}
+
+	/**
+	 * Analyse the Attributes set set to that view
+	 *  Update CircleBar according to those elements
+	 * @param context
+	 * @param attrs
+     */
+    private void anaylseAttributeSet(Context context, AttributeSet attrs){
+		TypedArray a = context.getTheme().obtainStyledAttributes(
+				attrs,
+				R.styleable.CircleBar,
+				0, 0);
+
+		try {
+			title=getString(a.getString(R.styleable.CircleBar_title),TITLE);
+			subtitle=getString(a.getString(R.styleable.CircleBar_subtitle),SUBTITLE);
+			targetLabel=getString(a.getString(R.styleable.CircleBar_target_label),TARGET_LABEL);
+			maxLabel=getString(a.getString(R.styleable.CircleBar_max_label),MAX_LABEL);
+			minColor=a.getInt(R.styleable.CircleBar_min_color,MIN_COLOR_DEFAULT);
+			warningColor=a.getInt(R.styleable.CircleBar_warning_color,WARNING_COLOR_DEFAULT);
+			errorColor=a.getInt(R.styleable.CircleBar_error_color,ERROR_COLOR_DEFAULT);
+			target=a.getInt(R.styleable.CircleBar_target_value,TARGET_DEFAULT);
+			max=a.getInt(R.styleable.CircleBar_max_value,MAX_DEFAULT);
+		} finally {
+			a.recycle();
+		}
+	}
+
+	/**
+	 *
+	 * @param expectedString
+	 * @param defaultString
+     * @return defaultString if expectedString is null, else expectedString is returned
+     */
+    private String getString(String expectedString, String defaultString){
+		return expectedString==null?defaultString:expectedString;
 	}
 
 	/**
@@ -492,43 +551,43 @@ public class CircleBar extends View {
 	/**
 	 * The max Value displayed by the view
 	 */
-	private int max = 145;
+	private int max = MAX_DEFAULT;
 	/**
 	 * The target value
 	 */
-	private int target = 65;
+	private int target = TARGET_DEFAULT;
 	/**
 	 * The Normal color
 	 */
-	private int minColor = 0XFF00AA00;
+	private int minColor = MIN_COLOR_DEFAULT;
 	/**
 	 * The warning color
 	 */
-	private int warningColor = 0Xffffd700;
+	private int warningColor = WARNING_COLOR_DEFAULT;
 	/**
 	 * The errorColor
 	 */
-	private int errorColor = 0XFFFF0000;
+	private int errorColor = ERROR_COLOR_DEFAULT;
 	/**
 	 * The value to display
 	 */
-	private int value = 55;
+	private int value = VALUE_DEFAULT;
 	/**
 	 * The target label
 	 */
-	private String targetLabel = "target";
+	private String targetLabel = TARGET_LABEL;
 	/**
 	 * The target label
 	 */
-	private String maxLabel = "145m3";
+	private String maxLabel = MAX_LABEL;
 	/**
 	 * The target label
 	 */
-	private String title = "consommation";
+	private String title = TITLE;
 	/**
 	 * The target label
 	 */
-	private String subtitle = "135 m3";
+	private String subtitle = SUBTITLE;
 
 	/**
 	 * @param maxLabel
