@@ -478,8 +478,10 @@ public class CircleBar extends View {
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		//the algorithm is not smart
 		int measuredHeight = measureHeight(heightMeasureSpec);
 		int measuredWidth = measureWidth(widthMeasureSpec);
+
 		int min=Math.min(measuredHeight,measuredWidth);
 		h=w=min;
 		Log.e("CircleBar", "H " + measuredHeight + ",W " + measuredWidth);
